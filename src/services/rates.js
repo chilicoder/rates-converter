@@ -45,47 +45,9 @@ class Rates {
     }
 
     async refreshRates() {
-        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-        console.log('calling');
-        await wait(2000);
-        this._processResult({
-            "time": "2018-11-13",
-            "base": "EUR",
-            "rates": [{ "currency": "USD", "rate": "1.1261" }, {
-                "currency": "JPY",
-                "rate": "128.32"
-            }, { "currency": "BGN", "rate": "1.9558" }, { "currency": "CZK", "rate": "25.939" }, {
-                "currency": "DKK",
-                "rate": "7.4613"
-            }, { "currency": "GBP", "rate": "0.86945" }, { "currency": "HUF", "rate": "322.89" }, {
-                "currency": "PLN",
-                "rate": "4.2992"
-            }, { "currency": "RON", "rate": "4.6612" }, { "currency": "SEK", "rate": "10.2284" }, {
-                "currency": "CHF",
-                "rate": "1.1368"
-            }, { "currency": "ISK", "rate": "139.40" }, { "currency": "NOK", "rate": "9.5563" }, {
-                "currency": "HRK",
-                "rate": "7.4238"
-            }, { "currency": "RUB", "rate": "76.1990" }, { "currency": "TRY", "rate": "6.1857" }, {
-                "currency": "AUD",
-                "rate": "1.5628"
-            }, { "currency": "BRL", "rate": "4.2479" }, { "currency": "CAD", "rate": "1.4888" }, {
-                "currency": "CNY",
-                "rate": "7.8354"
-            }, { "currency": "HKD", "rate": "8.8161" }, { "currency": "IDR", "rate": "16692.18" }, {
-                "currency": "ILS",
-                "rate": "4.1593"
-            }, { "currency": "INR", "rate": "81.8390" }, { "currency": "KRW", "rate": "1277.21" }, {
-                "currency": "MXN",
-                "rate": "23.0152"
-            }, { "currency": "MYR", "rate": "4.7229" }, { "currency": "NZD", "rate": "1.6684" }, {
-                "currency": "PHP",
-                "rate": "59.885"
-            }, { "currency": "SGD", "rate": "1.5559" }, { "currency": "THB", "rate": "37.178" }, {
-                "currency": "ZAR",
-                "rate": "16.2504"
-            }]
-        })
+        const response = await fetch('https://txf-ecb.glitch.me/rates');
+        const json = await response.json();
+        this._processResult(json);
         if (this.getCurrencies().length > 0) {
             this.isEmpty = false;
         }
@@ -93,7 +55,7 @@ class Rates {
     }
 
     _processResult(result) {
-        const time = result.time;
+        // const time = result.time;
         const base = result.base;
         const rS = this._ratesStore;
         const curs = this._currenciesStore;

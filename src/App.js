@@ -37,6 +37,7 @@ class App extends Component {
         this.setState({ isEmpty: true });
         this.componentDidMount();
     }
+
     clickReloadRates(e) {
         this.componentDidMount();
     }
@@ -49,14 +50,14 @@ class App extends Component {
             .check(a => a, 'Please, specify amount')
             .check(a => Number(a) > 0, 'Amount must be a positive number');
         const notCalculatable = isEmpty || amount.error;
-        const rate = notCalculatable
-            ? <span>&#x1F937;</span>
+        const rate = isEmpty
+            ? <span>¯\_(ツ)_/¯</span>
             : (this.props.ratesService.getRate(rateKey)).toPrecision(4);
         const currenciesOptions = this.props.ratesService.getCurrencies()
             .map((curr, i) => <option key={i} value={curr}>{curr}</option>)
 
         const convertedAmount = notCalculatable
-            ? <h1>&#x1F937;</h1>
+            ? <h1><span>¯\_(ツ)_/¯</span></h1>
             : <h1 className={notCalculatable ? 'line-through' : ''}>
                 {Number(amount.value * Number(rate)).toFixed(2)}
             </h1>;
